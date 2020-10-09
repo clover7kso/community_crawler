@@ -49,6 +49,8 @@ def getData():
                 timeString, '%Y-%m-%d %H:%M:%S')
 
             if((today-timeValue.replace(hour=0, minute=0, second=0, microsecond=0)).days >= 1):
+                conn.commit()
+                conn.close()
                 return
 
             voteNum = i.find(
