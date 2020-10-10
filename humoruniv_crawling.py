@@ -6,6 +6,8 @@ from multiprocessing import Process, Queue, Manager
 from datetime import date
 from datetime import datetime
 from datetime import time
+import time as t
+import random
 import requests
 import pymysql
 # 시작 URL
@@ -30,14 +32,15 @@ def getData():
     while True:
 
         startPage = startPage + 1
+
+        t.sleep(random.randint(5, 10))
         headers = {
-            'Cookie': 'c_cpuid_uuid=92b-3282-9091; c_cpuid=H-1d01-aa12; __utmz=150955945.1602219537.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); c_uuid_global=92b-3282-9091; adfit_sdk_id=c43de104-4c2e-4c14-b922-f115eeaf2357; link=ok; c_check=6dbe464628d539fdd666d275e88b6991; c_cpuid_set=wOLgwJC_w2DGTJrV7qjkYpRkZn4EwOCVvdwgTnDo; __utma=150955945.314112250.1602219537.1602254958.1602293428.4; __utmb=150955945.0.10.1602293428; __utmc=150955945; hu_auto_cook=Fzxo; wcs_bt=395c7d0a9352ac:1602294855',
+            'Cookie': 'c_cpuid_uuid=92b-3282-9091; c_cpuid=H-1d01-aa12; c_uuid_global=92b-3282-9091; adfit_sdk_id=c43de104-4c2e-4c14-b922-f115eeaf2357; c_check=6dbe464628d539fdd666d275e88b6991; c_cpuid_set=wOLgwJC_w2DGTJrV7qjkYpRkZn4EwOCVvdwgTnDo; hu_auto_cook=Fzxo; bad_count_cook=0; link=ok; __utma=150955945.314112250.1602219537.1602300124.1602341084.6; __utmb=150955945.0.10.1602341084; __utmc=150955945; __utmz=150955945.1602341084.6.3.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); wcs_bt=395c7d0a9352ac:1602341285',
             'Referer': 'strict-origin-when-cross-origin',
             'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
         }
         reqUrl = requests.get(
             BASE_URL+str(startPage), headers=headers, verify=False)
-
         soup = BeautifulSoup(reqUrl.content.decode(
             'euc-kr', 'replace'), "html.parser")
 
