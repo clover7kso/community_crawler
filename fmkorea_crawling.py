@@ -41,6 +41,7 @@ def getData():
         soup = soup.find("tbody")
         lastTime = datetime.now()
         for i in soup.find_all('tr'):
+            url = "https://www.fmkorea.com"+i.find("a", "hx")['href']
             title = i.find("a", "hx").text.strip()
             replyNum = i.find("a", "replyNum").text.strip().replace(",", "")
             timeString = i.find("td", "time").text.strip().split(":")
@@ -53,7 +54,9 @@ def getData():
             voteNum = i.find_all("td", "m_no")[0].text.strip().replace(",", "")
             viewNum = i.find_all("td", "m_no")[1].text.strip().replace(",", "")
 
-            print("제목 : ", title, " 댓글수 : ", replyNum, " 시간 : ", timeValue.strftime("%Y-%m-%d %H:%M:%S"),
+            cursor.execute(sql, (url, title, replyNum, viewNum, voteNum, timeValue.strftime("%Y-%m-%d %H:%M:%S"),
+                                 title, replyNum, viewNum, voteNum, timeValue.strftime("%Y-%m-%d %H:%M:%S")))
+            print("URL : ", url, "제목 : ", title, " 댓글수 : ", replyNum, " 시간 : ", timeValue.strftime("%Y-%m-%d %H:%M:%S"),
                   " 추천수 : ", voteNum, " 조회수 : ", viewNum)
 
 
