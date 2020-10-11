@@ -15,7 +15,7 @@ BASE_URL = "https://pann.nate.com/talk/ranking?rankingType=life&page=1"
 conn = pymysql.connect(host='crawler-database.c4bvdospxfm8.ap-northeast-2.rds.amazonaws.com',
                        user='killca', password='!comkbg702bk', db='crawler_data', charset='utf8')
 cursor = conn.cursor()
-sql = "INSERT INTO crawler_table (url, title, replyNum, viewNum, voteNum, timeUpload) VALUES (%s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE title = %s,  replyNum = %s,  viewNum = %s,  voteNum = %s,  timeUpload = %s"
+sql = "INSERT INTO crawler_table (site, num, url, title, replyNum, viewNum, voteNum, timeUpload) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE url = %s, title = %s,  replyNum = %s,  viewNum = %s,  voteNum = %s,  timeUpload = %s"
 
 
 def getUrls():
@@ -49,8 +49,9 @@ def getData(Urls):
         replyNum = soup.find("span", "num").find(
             "strong").text.strip().replace(",", "")
 
-        cursor.execute(sql, (i, title, replyNum, viewNum, voteNum, timeValue.strftime("%Y-%m-%d %H:%M:%S"),
-                             title, replyNum, viewNum, voteNum, timeValue.strftime("%Y-%m-%d %H:%M:%S")))
+        num = i.replace("https://pann.nate.com/talk/", "")
+        cursor.execute(sql, ("네이트판", num, i, title, replyNum, viewNum, voteNum, timeValue.strftime("%Y-%m-%d %H:%M:%S"),
+                             i, title, replyNum, viewNum, voteNum, timeValue.strftime("%Y-%m-%d %H:%M:%S")))
         print("URL : ", i, "제목 : ", title, " 댓글수 : ", replyNum, " 시간 : ", timeValue.strftime("%Y-%m-%d %H:%M:%S"),
               " 추천수 : ", voteNum, " 조회수 : ", viewNum)
 
