@@ -7,8 +7,9 @@ from datetime import date
 from datetime import datetime
 from datetime import time
 import pymysql
+
 # 시작 URL
-BASE_URL = "https://gall.dcinside.com/board/lists/?id=baseball_new9&list_num=100&sort_type=N&exception_mode=recommend&search_head=&page="
+BASE_URL = "https://gall.dcinside.com/board/lists/?id=baseball_new10&list_num=100&sort_type=N&exception_mode=recommend&search_head=&page="
 
 conn = pymysql.connect(host='crawler-database.c4bvdospxfm8.ap-northeast-2.rds.amazonaws.com',
                        user='killca', password='!comkbg702bk', db='crawler_data', charset='utf8')
@@ -28,11 +29,13 @@ def getData():
 
         reqUrl = Request(BASE_URL+str(startPage),
                          headers={'User-Agent': 'Mozilla/5.0'})
+        
         html = urlopen(reqUrl)
         soup = BeautifulSoup(html, "html.parser")
 
         soup = soup.find("tbody")
         today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        
         for i in soup.find_all('tr'):
             if i.find("td", "gall_num").text.strip() == "설문" or i.find("td", "gall_num").text.strip() == "공지" or i.find("td", "gall_num").text.strip() == "이슈":
                 continue
@@ -58,8 +61,7 @@ def getData():
             viewNum = i.find("td", "gall_count").text.strip().replace(",", "")
 
             num = i.find("td", "gall_num").text.strip().replace(",", "")
-            cursor.execute(sql, ("디씨 야구갤러리", num, url, title, replyNum, viewNum, voteNum, timeValue.strftime("%Y-%m-%d %H:%M:%S"),
-                                 url, title, replyNum, viewNum, voteNum, timeValue.strftime("%Y-%m-%d %H:%M:%S")))
+            cursor.execute(sql, ("디씨 야구갤러리", num, url, title, replyNum, viewNum, voteNum, timeValue.strftime("%Y-%m-%d %H:%M:%S"), url, title, replyNum, viewNum, voteNum, timeValue.strftime("%Y-%m-%d %H:%M:%S")))
             print("디씨 야구갤러리-", num, " URL : ", url, "제목 : ", title, " 댓글수 : ", replyNum, " 시간 : ", timeValue.strftime("%Y-%m-%d %H:%M:%S"),
                   " 추천수 : ", voteNum, " 조회수 : ", viewNum)
 
