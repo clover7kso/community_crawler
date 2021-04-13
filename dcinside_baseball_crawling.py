@@ -37,7 +37,7 @@ def getData():
         today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         
         for i in soup.find_all('tr'):
-            if i.find("td", "gall_num").text.strip() == "설문" or i.find("td", "gall_num").text.strip() == "공지" or i.find("td", "gall_num").text.strip() == "이슈":
+            if i.find("td", "gall_num").text.strip() == "설문" or i.find("td", "gall_num").text.strip() == "공지" or i.find("td", "gall_num").text.strip() == "이슈" or i.find("td", "gall_num").text.strip() == "AD":
                 continue
             url = "https://gall.dcinside.com" + \
                 i.find("td", {"class": [
