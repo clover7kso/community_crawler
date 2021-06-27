@@ -65,8 +65,8 @@ def getData():
             viewNum = i.find("td", "gall_count").text.strip().replace(",", "")
 
             num = i.find("td", "gall_num").text.strip().replace(",", "")
-            # cursor.execute(sql, ("디씨 실시간베스트", num, url, title, replyNum, viewNum, voteNum, timeValue.strftime(
-            #    "%Y-%m-%d %H:%M:%S"), url, title, replyNum, viewNum, voteNum, timeValue.strftime("%Y-%m-%d %H:%M:%S")))
+            cursor.execute(sql, ("디씨 실시간베스트", num, url, title, replyNum, viewNum, voteNum, timeValue.strftime(
+                "%Y-%m-%d %H:%M:%S"), url, title, replyNum, viewNum, voteNum, timeValue.strftime("%Y-%m-%d %H:%M:%S")))
             print("디씨 실시간베스트-", num, " URL : ", url, "제목 : ", title, " 댓글수 : ", replyNum, " 시간 : ", timeValue.strftime("%Y-%m-%d %H:%M:%S"),
                   " 추천수 : ", voteNum, " 조회수 : ", viewNum)
 
